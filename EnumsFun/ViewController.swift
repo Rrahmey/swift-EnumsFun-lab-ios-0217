@@ -16,12 +16,39 @@ class ViewController: UIViewController {
     @IBOutlet weak var opponentScoreLabel: UILabel!
     @IBOutlet weak var flipCardButton: UIButton!
     
-
+    let warGame = GameEngine(player1: "You", player2: "Opponent")
     
-    @IBAction func flipCard(_ sender: UIButton) {
-     
+    var you: Player {
+        return warGame.player1
     }
     
-   
+    var opponent: Player{
+        return warGame.player2
+    }
+    
+    
+    @IBAction func flipCard(_ sender: UIButton) {
+        let(winner, yourCard, opponentCard) = warGame.playOneTurn()
+        
+        if let yourCard = yourCard{
+            playerCardLabel.text = yourCard.description
+        }
+        playerScoreLabel.text = String(you.hand.size)
+        
+        if let opponentCard = opponentCard{
+            opponentCardLabel.text = opponentCard.description
+        }
+        opponentScoreLabel.text = String(opponent.hand.size)
+        
+        winnerLabel.text = winner.name
+        checkForEndOfGame()
+        
+    }
+    
+    func checkForEndOfGame() {
+        if warGame.gameOver(){
+            print("yes")
+        }
+    }
     
 }
